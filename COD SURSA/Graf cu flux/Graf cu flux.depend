@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1738136866 source:d:\colocviu af\cod sursa\graf cu flux\main.cpp
+	<iostream>
+	<vector>
+	<map>
+	<queue>
+	<climits>
+	<algorithm>
+

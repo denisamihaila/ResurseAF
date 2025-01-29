@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1738095812 source:d:\colocviu af\cod sursa\bellman-ford\main.cpp
+	<iostream>
+	<vector>
+	<tuple>
+

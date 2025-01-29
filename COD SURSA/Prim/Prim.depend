@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1738096420 source:d:\colocviu af\cod sursa\prim\main.cpp
+	<iostream>
+	<vector>
+	<queue>
+	<climits>
+

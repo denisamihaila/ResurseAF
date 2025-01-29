@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1738098839 source:d:\colocviu af\cod sursa\graf hamiltonian\main.cpp
+	<iostream>
+	<algorithm>
+	<vector>
+
