@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1738151241 source:d:\colocviu af\cod sursa\graf cu costuri - drumul minim i-j\main.cpp
+	<iostream>
+	<vector>
+	<queue>
+	<map>
+	<climits>
+
