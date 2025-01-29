@@ -1,56 +1,69 @@
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
-// Clasa pentru reprezentarea unui graf
 class Graph {
 private:
     int n; // Numarul de noduri
     vector<vector<int>> adj; // Liste de adiacenta
-
-    // Functie recursiva pentru DFS
-    void dfs(int node, vector<bool>& visited, stack<int>& topoStack) {
-        visited[node] = true;
-
-        for (int neighbor : adj[node]) {
-            if (!visited[neighbor]) {
-                dfs(neighbor, visited, topoStack);
-            }
-        }
-
-        topoStack.push(node); // Adaugam nodul pe stack cand este complet explorat
-    }
+    vector<int> inDegree; // Gradul de intrare pentru fiecare nod
 
 public:
     // Constructor
     Graph(int nodes) {
         n = nodes;
         adj.resize(n + 1);
+        inDegree.resize(n + 1, 0);
     }
 
     // Adauga o muchie orientata
     void addEdge(int u, int v) {
         adj[u].push_back(v);
+        inDegree[v]++;
     }
 
-    // Sortarea topologica folosind DFS
+    // Sortarea topologica minim lexicografica (BFS - Kahn)
     void topologicalSort() {
-        vector<bool> visited(n + 1, false);
-        stack<int> topoStack;
-
-        // Apelam DFS pentru fiecare nod nevizitat
+        // Sortam listele de adiacență pentru a respecta ordinea minimă lexicografică
         for (int i = 1; i <= n; i++) {
-            if (!visited[i]) {
-                dfs(i, visited, topoStack);
+            sort(adj[i].begin(), adj[i].end());
+        }
+
+        priority_queue<int, vector<int>, greater<int>> pq;
+        vector<int> topoOrder;
+
+        // Adaugam in coada nodurile cu grad de intrare 0
+        for (int i = 1; i <= n; i++) {
+            if (inDegree[i] == 0) {
+                pq.push(i);
             }
         }
 
+        // Procesam nodurile
+        while (!pq.empty()) {
+            int node = pq.top();
+            pq.pop();
+            topoOrder.push_back(node);
+
+            for (int neighbor : adj[node]) {
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] == 0) {
+                    pq.push(neighbor);
+                }
+            }
+        }
+
+        // Verificam daca graful are cicluri (sortarea este imposibila)
+        if (topoOrder.size() < n) {
+            cout << "Graful contine cicluri! Sortarea topologica nu este posibila.\n";
+            return;
+        }
+
         // Afisam sortarea topologica
-        cout << "Sortarea topologica este:\n";
-        while (!topoStack.empty()) {
-            cout << topoStack.top() << " ";
-            topoStack.pop();
+        for (int node : topoOrder) {
+            cout << node << " ";
         }
         cout << "\n";
     }
@@ -67,7 +80,7 @@ int main() {
         g.addEdge(u, v);
     }
 
-    // Sortarea topologica
+    // Sortarea topologica minim lexicografica
     g.topologicalSort();
 
     return 0;
